@@ -18,7 +18,7 @@ let url_chars = any(letters, numbers, "-").repeated
 let valid_url = new Expression(
    start, any("http", "https"), "://", 
    url_chars,
-   chunk("/", url_chars).maybe.repeated,
+   chunk("path", "/", url_chars).maybe.repeated,
    end
 )
 ```
