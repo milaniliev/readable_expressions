@@ -1,44 +1,44 @@
 ## Example 
 
+Say we're converting the following (oversimplified) URL-matching RegExp:
+
+```
+/^(http|https):\/\/[\w\d-]+(\/[\w\d-]+)*$/
+```
+
+If the above if intuitive and easy-to-read for you, congratulations! If not, this library is here to help.
+
 ### Simple
 
 ```js
-let {any, all, start, end, letter, number, Expression} = require('simple_expression')
+let {any, all, start, end, letter, number, chunk, Expression} = require('simple_expression')
+
+let url_chars = any(letters, numbers, "-").repeated
 
 let valid_url = new Expression(
-   start,
-   any("http", "https", "ftp"),  
-   "://",
-   letter,
-   any(letters, numbers, "-").any_number,
-   chunk("path",
-     "/",
-     any(letters, numbers, "-").any_number
-   ).possibly
+   start, any("http", "https"), "://", 
+   url_chars,
+   chunk("/", url_chars).maybe.repeated,
    end
 )
-
 ```
 
 ### With composition
 
 ```js
 
-let {any, all, start, end, letter, number, Expression} = require('simple_expression')
+let {any, all, start, end, letter, number, chunk, Expression} = require('simple_expression')
 
-Let url_characters = any(letters, numbers, "-").any_number
+let url_chars = any(letters, numbers, "-").repeated
 
-Let path_segment = new Expression("/", url_characters)
+let path_segment = new Expression("/", url_chars)
 
-Let path = path_segment.any_number
+let path = path_segment.repeated
 
-Let valid_url = new Expression(
-   start,
-   any("http", "https", "ftp"),  
-   "://",
-   letter,
-   any(letter, number, "-").any_number,
-   chunk("path", path).possibly
+let valid_url = new Expression(
+   start, any("http", "https"), "://",
+   url_chars,
+   chunk("path", path).maybe
    end
 )
 
