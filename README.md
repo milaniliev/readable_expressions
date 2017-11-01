@@ -153,3 +153,25 @@ let url = expression(
   expression("/", path).maybe()
 )
 ```
+
+### Replacing HTML tags with their uppercase variants
+
+Readable:
+
+```js
+  let tag_chars = chars(letter, digit, "-", "_").repeated
+  let attributes = expression(tag_chars, "=", tag_chars)
+  let tag = expression("<", whitespace.maybe, 
+    tag_chars.named("tag_name"), 
+    whitespace.maybe, 
+    attributes, 
+    whitespace.maybe, ">", 
+    anything, 
+    "<", matched("tag_name"), ">").named("tag")
+
+  let parsed_string = tag.match("<html><head></head><body></body></html>")
+
+  parsed_string.matches('tag').forEach((match) => match.tag_name = match.tag_name.toUpperCase())
+
+  parsed_string.toString() // => <HTML><HEAD></HEAD><BODY></BODY></HTML>
+```
