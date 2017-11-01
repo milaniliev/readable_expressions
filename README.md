@@ -135,7 +135,7 @@ Regexp:
 
 Readable:
 
-```
+```ks
 let protocol = either("ftp", "http", "https")
 let subdomain = either(letter, digit, "-").repeated()
 
