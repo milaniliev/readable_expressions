@@ -7,6 +7,8 @@ class Expression {
     return this.components.map((component) => {
       if(typeof component === 'string'){
         return component
+      } else {
+        return component.pattern
       }
     }).join('')
   }
@@ -27,8 +29,21 @@ class Expression {
   }
 }
 
+class CharacterClass {
+  constructor(characters){
+    this.characters = characters
+  }
+
+  get pattern(){
+    return `[${this.characters}]`
+  }
+}
+
 module.exports = {
-  expression: function(pattern){
-    return new Expression(pattern)
+  expression: function(components){
+    return new Expression(components)
+  },
+  chars: function(characters){
+    return new CharacterClass(characters)
   }
 }

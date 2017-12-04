@@ -1,4 +1,4 @@
-let {expression} = require('../')
+let {expression, chars} = require('../')
 
 describe("Simple matches", () => {
   let simple_expression = expression("aaa")    
