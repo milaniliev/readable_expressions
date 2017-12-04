@@ -156,6 +156,14 @@ let url = expression(
 
 ### Replacing HTML tags with their uppercase variants
 
+Regexp:
+
+```js
+  let url = /<\s([a-zA-Z0-9\-_])\s>\s.*\s<\s\/$1\s>/g
+  let matches = "<html><head></head><body></body></html>".match(url)
+
+```
+
 Readable:
 
 ```js
@@ -167,7 +175,7 @@ Readable:
     attributes, 
     whitespace.maybe, ">", 
     anything, 
-    "<", matched("tag_name"), ">").named("tag")
+    "</", matched("tag_name"), ">").named("tag")
 
   let parsed_string = tag.match("<html><head></head><body></body></html>")
 

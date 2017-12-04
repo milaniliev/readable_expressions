@@ -1,0 +1,7 @@
+{
+  "name": "readable_regexp",
+  "main": "main.js",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
+}
