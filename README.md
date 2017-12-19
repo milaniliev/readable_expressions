@@ -1,4 +1,4 @@
-## Example 
+## Example
 
 Say we're converting the following (oversimplified) URL-matching RegExp:
 
@@ -11,14 +11,14 @@ If the above if intuitive and easy-to-read for you, congratulations! If not, thi
 ### Simple
 
 ```js
-let {any, all, start, end, letter, number, chunk, Expression} = require('simple_expression')
+let {any, all, start, end, letter, number, expression} = require('simple_expression')
 
 let url_chars = any(letters, numbers, "-").repeated
 
-let valid_url = new Expression(
-   start, any("http", "https"), "://", 
+let valid_url = expression(
+   start, any("http", "https"), "://",
    url_chars,
-   chunk("path", "/", url_chars).maybe.repeated,
+   expression("path", "/", url_chars).maybe.repeated,
    end
 )
 ```
@@ -100,7 +100,7 @@ Regex: ???
 
 Readable:
 
-```js 
+```js
 matches.key_value_pair.forEach((pair) => pair.value = pair.value.reverse())
 matches.toString() // => '{name: "boB", age: 05}'
 ```
@@ -117,7 +117,7 @@ Regexp:
 ; edu\b
 ; biz\b
 ; gov\b
-; in(?:t;fo)\b 
+; in(?:t;fo)\b
 ; mil\b
 ; net\b
 ; org\b
@@ -148,8 +148,8 @@ let path_segment = chars('ˆ.!,?;"’<>()[]{}', whitespace, letter)
 let path = expression(path_segment, "/").repeated()
 
 let url = expression(
-  protocol, "://", 
-  expression(subdomain, ".").repeated().maybe(), subdomain, top_level_domain, port.maybe(), 
+  protocol, "://",
+  expression(subdomain, ".").repeated().maybe(), subdomain, top_level_domain, port.maybe(),
   expression("/", path).maybe()
 )
 ```
@@ -169,12 +169,12 @@ Readable:
 ```js
   let tag_chars = chars(letter, digit, "-", "_").repeated
   let attributes = expression(tag_chars, "=", tag_chars)
-  let tag = expression("<", whitespace.maybe, 
-    tag_chars.named("tag_name"), 
-    whitespace.maybe, 
-    attributes, 
-    whitespace.maybe, ">", 
-    anything, 
+  let tag = expression("<", whitespace.maybe,
+    tag_chars.named("tag_name"),
+    whitespace.maybe,
+    attributes,
+    whitespace.maybe, ">",
+    anything,
     "</", matched("tag_name"), ">").named("tag")
 
   let parsed_string = tag.match("<html><head></head><body></body></html>")

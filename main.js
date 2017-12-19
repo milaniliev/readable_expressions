@@ -17,6 +17,10 @@ class Expression {
     })
   }
 
+  get component_group(){
+    return `(?:${this.component_patterns.join('')})`
+  }
+
   match(string){
     let regexp_result = new RegExp(this.pattern).exec(string)
 
@@ -30,6 +34,31 @@ class Expression {
         found: false
       }
     }
+  }
+
+  repeated(options){
+    return new RepeatedExpression(this, options)
+  }
+
+  maybe(){
+    return new RepeatedExpression(this, {min: 0, max: 1})
+  }
+}
+
+class RepeatedExpression extends Expression {
+  constructor(component, options){
+    super(component)
+    this.repeat_options = options || {min: 1}
+  }
+
+  get pattern(){
+    if(this.repeat_options.min && this.repeat_options.max){
+      return `${this.component_group}{${this.repeat_options.min},${this.repeat_options.max}}`
+    }
+
+    if(this.repeat_options.min === 1){
+      return `${this.component_group}+`
+    } else if ()
   }
 }
 
@@ -49,6 +78,12 @@ class AnyExpression extends Expression {
   }
 }
 
+class RawExpression extends Expression {
+  get pattern(){
+    return this.components.join('')
+  }
+}
+
 module.exports = {
   expression: function(...components){
     return new Expression(...components)
@@ -58,5 +93,8 @@ module.exports = {
   },
   any: function(...components){
     return new AnyExpression(...components)
-  }
+  },
+
+  start: new RawExpression('^'),
+  end:   new RawExpression('$')
 }

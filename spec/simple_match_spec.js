@@ -3,6 +3,10 @@ let {expression, chars} = require('../')
 describe("Simple matches", () => {
   let simple_expression = expression("aaa")
 
+  it("constructors the correct pattern", () => {
+    expect(simple_expression.pattern).toBe("aaa")
+  })
+
   it("reports positive match", () => {
     let match = simple_expression.match("baaa")
 
