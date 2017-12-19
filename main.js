@@ -1,6 +1,10 @@
 class Expression {
   constructor(...components){
     this.components = components
+    this.names = []
+    this.components.forEach((component) => {
+      if(component.names){ this.names = this.names.concat(component.names) }
+    })
   }
 
   get pattern(){
@@ -25,10 +29,19 @@ class Expression {
     let regexp_result = new RegExp(this.pattern).exec(string)
 
     if(regexp_result){
-      return {
-        index: regexp_result.index,
-        found: true
-      }
+      let result = {}
+
+      result.index = regexp_result.index,
+      result.found = true
+      result.matches = regexp_result
+      this.names.forEach((name, index) => {
+        Object.defineProperty(result, name, {
+          get: () => {return regexp_result[index + 1]}
+        })
+      })
+
+      return result
+
     } else {
       return {
         found: false
@@ -42,6 +55,21 @@ class Expression {
 
   maybe(){
     return new RepeatedExpression(this, {min: 0, max: 1})
+  }
+
+  named(name){
+    return new NamedExpression(this, name)
+  }
+}
+
+class NamedExpression extends Expression {
+  constructor(component, name){
+    super(component)
+    this.names = [name]
+  }
+
+  get pattern(){
+    return `(${this.component_patterns.join('')})`
   }
 }
 
@@ -62,8 +90,9 @@ class RepeatedExpression extends Expression {
   }
 }
 
-class CharacterClass {
+class CharacterClass extends Expression {
   constructor(characters){
+    super()
     this.characters = characters
   }
 
@@ -95,6 +124,12 @@ module.exports = {
     return new AnyExpression(...components)
   },
 
-  start: new RawExpression('^'),
-  end:   new RawExpression('$')
+  start:  new RawExpression('^'),
+  end:    new RawExpression('$'),
+  letter: new RawExpression('[a-zA-Z]'),
+  digit:  new RawExpression('[0-9]'),
+
+  AnyExpression: AnyExpression,
+  RepeatedExpression: RepeatedExpression,
+  Expression: Expression
 }
