@@ -48,17 +48,17 @@ class Expression {
 class RepeatedExpression extends Expression {
   constructor(component, options){
     super(component)
-    this.repeat_options = options || {min: 1}
+    this.repeat = options || {min: 1}
   }
 
   get pattern(){
-    if(this.repeat_options.min && this.repeat_options.max){
-      return `${this.component_group}{${this.repeat_options.min},${this.repeat_options.max}}`
-    }
-
-    if(this.repeat_options.min === 1){
+    if(this.repeat.min !== undefined && this.repeat.max !== undefined){
+      return `${this.component_group}{${this.repeat.min},${this.repeat.max}}`
+    } else if(this.repeat.min === 1){
       return `${this.component_group}+`
-    } else if ()
+    } else {
+      return `${this.component_group}{${this.repeat.min},}`
+    }
   }
 }
 
