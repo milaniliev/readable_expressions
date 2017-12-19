@@ -2,15 +2,19 @@ class Expression {
   constructor(...components){
     this.components = components
   }
-  
+
   get pattern(){
+    return this.component_patterns.join('')
+  }
+
+  get component_patterns(){
     return this.components.map((component) => {
       if(typeof component === 'string'){
         return component
       } else {
         return component.pattern
       }
-    }).join('')
+    })
   }
 
   match(string){
@@ -39,11 +43,20 @@ class CharacterClass {
   }
 }
 
+class AnyExpression extends Expression {
+  get pattern(){
+    return `(?:${this.component_patterns.join('|')})`
+  }
+}
+
 module.exports = {
-  expression: function(components){
-    return new Expression(components)
+  expression: function(...components){
+    return new Expression(...components)
   },
-  chars: function(characters){
-    return new CharacterClass(characters)
+  chars: function(...characters){
+    return new CharacterClass(...characters)
+  },
+  any: function(...components){
+    return new AnyExpression(...components)
   }
 }

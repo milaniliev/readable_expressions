@@ -1,8 +1,8 @@
 let {expression, chars} = require('../')
 
 describe("Simple matches", () => {
-  let simple_expression = expression("aaa")    
-  
+  let simple_expression = expression("aaa")
+
   it("reports positive match", () => {
     let match = simple_expression.match("baaa")
 
@@ -25,9 +25,14 @@ describe("Simple matches", () => {
 describe("Simple composited expression", () => {
   let composite_expression = expression("b", "aaa")
 
-  it("matches_correctly", () => {
+  it("matches correctly", () => {
     let match = composite_expression.match("baaa")
-    expect(match.found).toBe(true)    
+    expect(match.found).toBe(true)
     expect(match.index).toBe(0)
+  })
+
+  it("negatively matches correctly", () => {
+    let match = composite_expression.match("baa")
+    expect(match.found).toBe(false)
   })
 })

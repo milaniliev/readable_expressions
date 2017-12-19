@@ -1,2 +1,2 @@
 test:
-	.\node_modules\.bin\cucumber.js.cmd .
+	.\node_modules\.bin\jasmine.cmd

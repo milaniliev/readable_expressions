@@ -27,7 +27,7 @@ let valid_url = new Expression(
 
 ```js
 
-let {any, all, start, end, letter, number, chunk, Expression} = require('simple_expression')
+let {any, all, start, end, letter, number, Expression} = require('simple_expression')
 
 let url_chars = any(letters, numbers, "-").repeated
 
@@ -38,7 +38,7 @@ let path = path_segment.repeated
 let valid_url = new Expression(
    start, any("http", "https"), "://",
    url_chars,
-   chunk("path", path).maybe
+   expression(path).named("path")maybe
    end
 )
 
