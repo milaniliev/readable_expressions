@@ -1,5 +1,5 @@
 {
-  "name": "readable_regexp",
+  "name": "readable_expressions",
   "main": "main.js",
   "devDependencies": {
     "jasmine": "^2.8.0"

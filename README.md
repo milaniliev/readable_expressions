@@ -1,5 +1,7 @@
-## Example
+# Readable Expressions
+An easy-to-understand syntax for regular expressions (in JavaScript).
 
+## Example
 Say we're converting the following (oversimplified) URL-matching RegExp:
 
 ```
@@ -11,7 +13,7 @@ If the above if intuitive and easy-to-read for you, congratulations! If not, thi
 ### Simple
 
 ```js
-let {any, all, start, end, letter, number, expression} = require('simple_expression')
+let {any, all, start, end, letter, number, expression} = require('readable_expressions')
 
 let url_chars = any(letters, numbers, "-").repeated
 
@@ -27,7 +29,7 @@ let valid_url = expression(
 
 ```js
 
-let {any, all, start, end, letter, number, expression} = require('simple_expression')
+let {any, all, start, end, letter, number, expression} = require('readable_expressions')
 
 let url_chars = any(letter, number, "-").repeated
 
