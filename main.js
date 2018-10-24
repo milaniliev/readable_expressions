@@ -141,11 +141,11 @@ module.exports = {
   any: function(...components){
     return new AnyExpression(...components)
   },
-
-  start:  new RawExpression('^'),
-  end:    new RawExpression('$'),
-  letter: new CharacterClass('a-zA-Z'),
-  digit:  new CharacterClass('0-9'),
+  all:        new RawExpression('.'),
+  start:      new RawExpression('^'),
+  end:        new RawExpression('$'),
+  letter:     new CharacterClass('a-zA-Z'),
+  digit:      new CharacterClass('0-9'),
   whitespace: new CharacterClass('\\s'),
 
   AnyExpression: AnyExpression,
