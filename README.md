@@ -13,7 +13,7 @@ If the above if intuitive and easy-to-read for you, congratulations! If not, thi
 ### Simple
 
 ```js
-let {any, all, start, end, letter, number, expression} = require('readable_expressions')
+let {any, all, start, end, letter, number, whitespace, chars, except_chars, expression} = require('readable_expressions')
 
 let url_chars = any(letters, numbers, "-").repeated
 
