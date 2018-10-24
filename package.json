@@ -1,6 +1,7 @@
 {
   "name": "readable_expressions",
   "main": "main.js",
+  "version": "1.0.0",
   "devDependencies": {
     "jasmine": "^2.8.0"
   }
