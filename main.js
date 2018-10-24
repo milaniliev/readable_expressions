@@ -101,6 +101,21 @@ class CharacterClass extends Expression {
   }
 }
 
+class ExceptCharacterClass extends Expression {
+  constructor(characters){
+    super()
+    if(characters instanceof CharacterClass){
+      this.characters = characters.characters
+    } else {
+      this.characters = characters
+    }
+  }
+
+  get pattern(){
+    return `[^${this.characters}]`
+  }
+}
+
 class AnyExpression extends Expression {
   get pattern(){
     return `(?:${this.component_patterns.join('|')})`
@@ -120,14 +135,18 @@ module.exports = {
   chars: function(...characters){
     return new CharacterClass(...characters)
   },
+  except_chars: function(...characters){
+    return new ExceptCharacterClass(...characters)
+  },
   any: function(...components){
     return new AnyExpression(...components)
   },
 
   start:  new RawExpression('^'),
   end:    new RawExpression('$'),
-  letter: new RawExpression('[a-zA-Z]'),
-  digit:  new RawExpression('[0-9]'),
+  letter: new CharacterClass('a-zA-Z'),
+  digit:  new CharacterClass('0-9'),
+  whitespace: new CharacterClass('\\s'),
 
   AnyExpression: AnyExpression,
   RepeatedExpression: RepeatedExpression,
